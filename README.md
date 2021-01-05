@@ -2,6 +2,24 @@
 
 TO DO APP build in AspNetCore 3.1
 
+# Stack
+
+# Frontend
+
+React - Hooks-
+TypeScript
+Material UI
+
+# Backend
+
+DotNet core 3.1
+TypeScript
+MongoDB / support with SQL
+
 # Initial Branch - Main
 
-# Commit - start
+Commit - start
+
+# Branch - Dev
+
+commit - create - template react app
