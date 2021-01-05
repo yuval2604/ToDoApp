@@ -1,46 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using ToDoApp.Data;
 using ToDoApp.Domain;
 
 namespace ToDoApp.Services
 {
     public class TaskService : ITaskService
     {
-        private readonly List<Task> _tasks;
-
-        public TaskService()
+        private DataContext _dataContext;
+        public TaskService(DataContext dataContext)
         {
-            _tasks = new List<Task>();
-            for (int i = 0; i < 5; i++)
-            {
-                _tasks.Add(new Task
-                {
-                    Id = Guid.NewGuid(),
-                    status = Task_status.NOT_DONE,
-                    content = $"task {i}"
-                });
-            }
+            _dataContext = dataContext;
+        }
+
+        public async Task<List<Domain.Task>> GetTasksAsync()
+        {
+            return await _dataContext.Tasks.ToListAsync();
+
+        }
+
+        public async Task<Domain.Task> GetTaskByIdAsync(Guid postId)
+        {
+            return await _dataContext.Tasks.SingleOrDefaultAsync(x => x.Id == postId);
         }
 
 
-        public Task GetTaskId(Guid TaskId)
+
+        public async Task<bool> DeleteTaskAsync(Guid taskId)
         {
-            return _tasks.SingleOrDefault(x => x.Id == TaskId);
+            var task = await GetTaskByIdAsync(taskId);
+            _dataContext.Tasks.Remove(task);
+            var deleted = await _dataContext.SaveChangesAsync();
+            return deleted > 0;
         }
 
-        public List<Task> GetTasks()
+        public async Task<bool> CreateTaskAsync(Domain.Task post)
         {
-            return _tasks;
+            await _dataContext.Tasks.AddAsync(post);
+            var created = await _dataContext.SaveChangesAsync();
+            return created > 0;
         }
 
-        public bool UpdateTask(Task taskToUpdate)
+        public async Task<bool> UpdateTaskAsync(Domain.Task taskToUpdate)
         {
-            var exsists = GetTaskId(taskToUpdate.Id) != null;
-            if (!exsists) return false;
-            var index = _tasks.FindIndex(x => x.Id == taskToUpdate.Id);
-            _tasks[index] = taskToUpdate;
-            return true;
+            _dataContext.Tasks.Update(taskToUpdate);
+            var updated = await _dataContext.SaveChangesAsync();
+            return updated > 0;
         }
+
+       
     }
 }
