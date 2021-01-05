@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApp.Contract;
 using ToDoApp.Contract.Request;
@@ -20,42 +21,51 @@ namespace ToDoApp.Controllers.V1
         [HttpGet(ApiRoutes.Tasks.GetAll)]
         public IActionResult GetAll()
         {
-            return Ok(_taskService.GetTasks());
+            return Ok(_taskService.GetTasksAsync());
         }
 
         [HttpPut(ApiRoutes.Tasks.Update)]
-        public IActionResult Update([FromRoute] Guid taskId, [FromBody] UpdatedTaskRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid taskId, [FromBody] UpdatedTaskRequest request)
         {
-            var task = new Task
+            var task = new Domain.Task
             {
-                Id = taskId
+                Id = taskId,
+                status = Task_status.DONE
+                
             };
-            var updated = _taskService.UpdateTask(task);
+            var updated = await _taskService.UpdateTaskAsync(task);
             if (updated)
                 return Ok(task);
             return NotFound();
         }
 
         [HttpGet(ApiRoutes.Tasks.Get)]
-        public IActionResult Get([FromRoute] Guid taskId)
+        public async Task<IActionResult> Get([FromRoute] Guid taskId)
         {
-            var task = _taskService.GetTaskId(taskId);
+            var task = await _taskService.GetTaskByIdAsync(taskId);
             if (task == null) return NotFound();
             return Ok(task);
         }
 
         [HttpPost(ApiRoutes.Tasks.Create)]
-        public IActionResult Create([FromBody] CreatedTaskRequest taskRequest)
+        public async Task<IActionResult> Create([FromBody] CreatedTaskRequest taskRequest)
         {
-            var task = new Task { Id = taskRequest.Id, status=Task_status.NOT_DONE, content= taskRequest.content };
-            if (task.Id != Guid.Empty) task.Id = Guid.NewGuid();
-            //_postService.Add(post);
+            var task = new Domain.Task {  status=Task_status.NOT_DONE, content= taskRequest.content };
+            await _taskService.CreateTaskAsync(task);
+
 
             var baseurl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var locationUrl = baseurl + "/" + ApiRoutes.Tasks.Get.Replace("{taskId}", task.Id.ToString());
             var response = new TaskResponse { Id = task.Id };
             return Created(locationUrl, response);
         }
-
+        
+        [HttpDelete(ApiRoutes.Tasks.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] Guid taskId)
+        {
+            var deleted = await _taskService.DeleteTaskAsync(taskId);
+            if (deleted) return NoContent();
+            return NotFound();
+        }
     }
 }

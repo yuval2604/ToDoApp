@@ -7,10 +7,10 @@ namespace ToDoApp.Services
 {
     public interface ITaskService
     {
-        Task<List<Domain.Task>> GetPostsAsync();
-        Task<Domain.Task> GetPostByIdAsync(Guid taskId);
-        Task<bool> CreatePostAsync(Domain.Task task);
-        Task<bool> DeletePostAsync(Guid taskId);
-        Task<bool> UpdatePostAsync(Domain.Task taskToUpdate);
+        Task<List<Domain.Task>> GetTasksAsync();
+        Task<Domain.Task> GetTaskByIdAsync(Guid taskId);
+        Task<bool> CreateTaskAsync(Domain.Task task);
+        Task<bool> DeleteTaskAsync(Guid taskId);
+        Task<bool> UpdateTaskAsync(Domain.Task taskToUpdate);
     }
 }

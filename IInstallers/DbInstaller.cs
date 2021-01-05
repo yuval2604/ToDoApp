@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ToDoApp.Data;
@@ -11,7 +13,13 @@ namespace ToDoApp.IInstallers
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<ITaskService,TaskService >();
+        services.AddDbContext<DataContext>(opt =>
+            {
+
+                opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+            });
+            
+            services.AddScoped<ITaskService,TaskService >();
         }
     }
 }
