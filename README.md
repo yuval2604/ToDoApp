@@ -30,3 +30,10 @@ Tasks :
 - Routes
 - Interface for Status & Task
 - Controllers - add, get, update, delete
+
+FrontEnd :
+
+- create react app with typescript template
+- create Models
+- Create types
+- create components folder

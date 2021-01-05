@@ -14,7 +14,7 @@ namespace ToDoApp.IInstallers
 
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "client-app/build";
             });
             
 
