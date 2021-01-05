@@ -35,6 +35,10 @@
     <Folder Include="Migrations\" />
     <Folder Include="Options\" />
     <Folder Include="Services\" />
+    <Folder Include="Controllers\V1\" />
+    <Folder Include="Contract\" />
+    <Folder Include="Contract\Request\" />
+    <Folder Include="Contract\Response\" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

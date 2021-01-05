@@ -1,15 +1,22 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace ToDoApp.IInstallers
 {
-    public class MvcInstallerIInstaller
+    public class MvcInstallerIInstaller : IInstaller
     {
 
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllersWithViews();
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+            
 
             services.AddSwaggerGen(x =>
             {
