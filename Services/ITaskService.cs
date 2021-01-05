@@ -11,6 +11,6 @@ namespace ToDoApp.Services
         Task<Domain.Task> GetTaskByIdAsync(Guid taskId);
         Task<bool> CreateTaskAsync(Domain.Task task);
         Task<bool> DeleteTaskAsync(Guid taskId);
-        Task<bool> UpdateTaskAsync(Domain.Task taskToUpdate);
+        Task<bool> UpdateTaskAsync(Guid taskId);
     }
 }

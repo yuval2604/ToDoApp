@@ -9,7 +9,7 @@ using ToDoApp.Data;
 namespace ToDoApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210105135223_InitialCreate")]
+    [Migration("20210105140657_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

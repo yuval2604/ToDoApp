@@ -27,15 +27,10 @@ namespace ToDoApp.Controllers.V1
         [HttpPut(ApiRoutes.Tasks.Update)]
         public async Task<IActionResult> Update([FromRoute] Guid taskId, [FromBody] UpdatedTaskRequest request)
         {
-            var task = new Domain.Task
-            {
-                Id = taskId,
-                status = Task_status.DONE
-                
-            };
-            var updated = await _taskService.UpdateTaskAsync(task);
+           
+            var updated = await _taskService.UpdateTaskAsync(taskId);
             if (updated)
-                return Ok(task);
+                return Ok(taskId);
             return NotFound();
         }
 

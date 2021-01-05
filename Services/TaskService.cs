@@ -44,9 +44,11 @@ namespace ToDoApp.Services
             return created > 0;
         }
 
-        public async Task<bool> UpdateTaskAsync(Domain.Task taskToUpdate)
+        public async Task<bool> UpdateTaskAsync(Guid taskId)
         {
-            _dataContext.Tasks.Update(taskToUpdate);
+            var task = await GetTaskByIdAsync(taskId);
+            task.status = Task_status.DONE;
+            _dataContext.Tasks.Update(task);
             var updated = await _dataContext.SaveChangesAsync();
             return updated > 0;
         }
