@@ -1,8 +1,0 @@
-#addCardIcon {
-	position: fixed;
-	bottom: 15px;
-}
-
-#addCardIcon:hover {
-	cursor: pointer;
-}
