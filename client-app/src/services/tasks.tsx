@@ -7,15 +7,18 @@ const getAllTasks = async () => {
   return responseHandler(res);
 };
 
-const createTask = async (taskContent: string) => {
-  const options = setRestOptions("POST", { taskContent });
+const createTask = async (taskConten: string) => {
+  const options = setRestOptions("POST", { content: taskConten });
   const res = await fetch(url, options);
   return responseHandler(res);
 };
 
-const toggleTaskStatus = async (id: string) => {
+const toggleTaskStatus = async (id: string, status: number) => {
   const options = setRestOptions("PUT", { id });
-  const res = await fetch(`${url}/${id}`, options);
+  const res = status
+    ? await fetch(`${url}/Undone/${id}`, options)
+    : await fetch(`${url}/${id}`, options);
+
   return responseHandler(res);
 };
 

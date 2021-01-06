@@ -19,8 +19,8 @@ interface Props {
 }
 
 const TasksCards: React.FC<Props> = ({ tasks, setTasks }) => {
-  const toggleStatus = async (id: string, index: number) => {
-    const res = await toggleTaskStatus(id);
+  const toggleStatus = async (id: string, index: number, status: number) => {
+    const res = await toggleTaskStatus(id, status);
 
     if (res.success) {
       const newArr = [...tasks];
@@ -50,7 +50,6 @@ const TasksCards: React.FC<Props> = ({ tasks, setTasks }) => {
             elevation={6}
           >
             <CardContent className="card-content">
-              <Typography>{task.id}</Typography>
               <Typography className="task-content"> {task.content}</Typography>
             </CardContent>
             <CardActions className="card-actions">
@@ -59,7 +58,9 @@ const TasksCards: React.FC<Props> = ({ tasks, setTasks }) => {
                   <Checkbox
                     color="primary"
                     checked={isCompleted(index)}
-                    onChange={() => task.id && toggleStatus(task.id, index)}
+                    onChange={() =>
+                      task.id && toggleStatus(task.id, index, task.status)
+                    }
                     inputProps={{ "aria-label": "checkbox" }}
                   />
                 }

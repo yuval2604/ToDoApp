@@ -56,13 +56,9 @@ namespace ToDoApp.Controllers.V1
         public async Task<IActionResult> Create([FromBody] CreatedTaskRequest taskRequest)
         {
             var task = new Domain.Task {  status=Task_status.NOT_DONE, content= taskRequest.content };
-            await _taskService.CreateTaskAsync(task);
-
-
-            var baseurl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUrl = baseurl + "/" + ApiRoutes.Tasks.Get.Replace("{taskId}", task.Id.ToString());
-            var response = new TaskResponse { Id = task.Id };
-            return Created(locationUrl, response);
+            var created= await _taskService.CreateTaskAsync(task);
+            if (created == null) return NotFound();
+            return Ok(created);
         }
         
         [HttpDelete(ApiRoutes.Tasks.Delete)]

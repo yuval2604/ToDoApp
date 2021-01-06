@@ -1,7 +1,7 @@
 interface Task {
   id?: string;
   content?: string;
-  status?: number;
+  status: number;
 }
 
 export type { Task };

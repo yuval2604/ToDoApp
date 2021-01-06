@@ -37,9 +37,9 @@ namespace ToDoApp.Services
             return deleted > 0;
         }
 
-        public async Task<bool> CreateTaskAsync(Domain.Task post)
+        public async Task<bool> CreateTaskAsync(Domain.Task task)
         {
-            await _dataContext.Tasks.AddAsync(post);
+            await _dataContext.Tasks.AddAsync(task);
             var created = await _dataContext.SaveChangesAsync();
             return created > 0;
         }
