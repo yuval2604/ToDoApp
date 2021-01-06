@@ -16,7 +16,7 @@ namespace ToDoApp.IInstallers
             {
                 configuration.RootPath = "client-app/build";
             });
-            
+
 
             services.AddSwaggerGen(x =>
             {

@@ -19,16 +19,26 @@ namespace ToDoApp.Controllers.V1
             _taskService = taskService;
         }
         [HttpGet(ApiRoutes.Tasks.GetAll)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(_taskService.GetTasksAsync());
+            return Ok(await _taskService.GetTasksAsync());
         }
 
         [HttpPut(ApiRoutes.Tasks.Update)]
-        public async Task<IActionResult> Update([FromRoute] Guid taskId, [FromBody] UpdatedTaskRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid taskId)
         {
            
             var updated = await _taskService.UpdateTaskAsync(taskId);
+            if (updated)
+                return Ok(taskId);
+            return NotFound();
+        }
+
+        [HttpPut(ApiRoutes.Tasks.UnDone)]
+        public async Task<IActionResult> UnDone([FromRoute] Guid taskId)
+        {
+           
+            var updated = await _taskService.UnDoneTaskAsync(taskId);
             if (updated)
                 return Ok(taskId);
             return NotFound();

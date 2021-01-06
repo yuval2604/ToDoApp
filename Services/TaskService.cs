@@ -53,6 +53,15 @@ namespace ToDoApp.Services
             return updated > 0;
         }
 
+        public async Task<bool> UnDoneTaskAsync(Guid taskId)
+        {
+            var task = await GetTaskByIdAsync(taskId);
+            task.status = Task_status.NOT_DONE;
+            _dataContext.Tasks.Update(task);
+            var updated = await _dataContext.SaveChangesAsync();
+            return updated > 0;
+        }
+
        
     }
 }

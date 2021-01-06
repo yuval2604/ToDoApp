@@ -15,6 +15,7 @@ namespace ToDoApp.Contract
             public const string Update = Base + "/tasks/{taskId}";
 
             public const string Delete = Base + "/tasks/{taskId}";
+            public const string UnDone = Base + "/tasks/Undone/{taskId}";
 
         }
     }
